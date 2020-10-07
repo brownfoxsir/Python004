@@ -18,6 +18,7 @@ class Maoyantop10Spider(scrapy.Spider):
             '//div[@class="movie-hover-info"]')
         # movies_list = [movie.extract().split() for movie in movies_info.xpath('string(.)')]
         movies_list = []
+        # 取出所有movies_info里的字符串
         for movie in movies_info.xpath('string(.)'):
             movies_list.append(movie.extract().split())
 
