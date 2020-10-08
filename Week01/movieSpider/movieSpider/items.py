@@ -9,5 +9,9 @@ import scrapy
 class MoviespiderItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    info = scrapy.Field()
-    
+    table = 'movie'
+    movie_name = scrapy.Field()
+    movie_score = scrapy.Field()
+    movie_actor = scrapy.Field()
+    movie_type = scrapy.Field()
+    movie_time = scrapy.Field()

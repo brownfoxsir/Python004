@@ -16,13 +16,16 @@ class Maoyantop10Spider(scrapy.Spider):
     def parse(self, response):
         movies_info = Selector(response=response).xpath(
             '//div[@class="movie-hover-info"]')
-        # movies_list = [movie.extract().split() for movie in movies_info.xpath('string(.)')]
-        movies_list = []
-        # 取出所有movies_info里的字符串
-        for movie in movies_info.xpath('string(.)'):
-            movies_list.append(movie.extract().split())
+        for i, movie in enumerate(movies_info):
+            if i > 9:
+                break
 
-        movie_top10 = [movies_list[movie] for movie in range(10)]
-        item = MoviespiderItem()
-        item['info'] = movie_top10
-        return item
+            item = MoviespiderItem()
+            item['movie_name'] = movie.xpath('./div/span/text()').get()
+            item['movie_score'] = movie.xpath(
+                './div/span[@class="score channel-detail-orange"]').xpath('string(.)').get(default='暂无')
+            item['movie_type'] = str(movie.xpath('./div[1]/following-sibling::div[1]/text()').getall()[1]).strip()
+            item['movie_actor'] = str(movie.xpath('./div[1]/following-sibling::div[2]/text()').getall()[1]).strip()
+            item['movie_time'] = str(movie.xpath('./div[1]/following-sibling::div[3]/text()').getall()[1]).strip()
+                
+            yield item

@@ -14,7 +14,7 @@ NEWSPIDER_MODULE = 'movieSpider.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-USER_AGENT = 'movieSpider (+http://www.yourdomain.com)'
+USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36 Edg/85.0.564.63"  --pdb "https://maoyan.com/films?showType=3'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -64,7 +64,14 @@ DOWNLOAD_DELAY = 3
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'movieSpider.pipelines.MoviespiderPipeline': 300,
+    'movieSpider.pipelines.MysqlPipeline': None,
 }
+
+# MYSQL_HOST = '127.0.0.1'
+# MYSQL_DATABASE = 'test'
+# MYSQL_USER = 'root'
+# MYSQL_PASSWORD = 'test'
+# MYSQL_PORT = 3306
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
