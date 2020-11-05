@@ -11,7 +11,7 @@ from bs4 import BeautifulSoup
 
 user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36 Edg/85.0.564.63'
 url = 'https://maoyan.com/films?showType=3'
-cookies = '__mta=42906394.1600821957025.1601090255347.1601092125577.5; uuid_n_v=v1; uuid=221982E0FD3611EA985FDD1498D583AFDD90641E6EBA4532BDA6F880AF5D740F; mojo-uuid=af4134bb046d83b91cd688efdb9da22f; _lx_utm=utm_source%3Dbing%26utm_medium%3Dorganic; _lxsdk_cuid=174b86c91434a-081ce0187f864b-7d647865-100200-174b86c9144c8; _lxsdk=221982E0FD3611EA985FDD1498D583AFDD90641E6EBA4532BDA6F880AF5D740F; mojo-session-id={"id":"b7f46262e47827b4e94715c827c56c43","time":1601088812562}; _csrf=2fcf37f4f71d12956bbfe5e95fd3adfc9efb2dfac0e60b47f5086a4b85bd29ab; Hm_lvt_703e94591e87be68cc8da0da7cbd0be2=1600821957,1601088813,1601089122,1601092104; mojo-trace-id=53; Hm_lpvt_703e94591e87be68cc8da0da7cbd0be2=1601092780; __mta=42906394.1600821957025.1601092125577.1601092780602.6; _lxsdk_s=174c85478b8-236-ec3-119%7C%7C86'
+cookies = '__mta=42906394.1600821957025.1601193109508.1604478053782.9; mojo-uuid=af4134bb046d83b91cd688efdb9da22f; _lxsdk_cuid=174b86c91434a-081ce0187f864b-7d647865-100200-174b86c9144c8; uuid_n_v=v1; uuid=57828D801E7611EBA88A5FB353EF709A6A9172D2354442F9B1F4380C15715466; _lx_utm=utm_source%3Dbing%26utm_medium%3Dorganic; _lxsdk=57828D801E7611EBA88A5FB353EF709A6A9172D2354442F9B1F4380C15715466; _csrf=e6456cc1c2b082ace4abb57bf8d7806ab9c738790891a07b1c4d05cb51500a13; Hm_lvt_703e94591e87be68cc8da0da7cbd0be2=1602063142,1604477920,1604542746; Hm_lpvt_703e94591e87be68cc8da0da7cbd0be2=1604542783; __mta=42906394.1600821957025.1604478053782.1604542783097.10; _lxsdk_s=17596334d6f-924-655-d92%7C%7C5'
 
 # request header
 headers = {'User-Agent': user_agent, 'Cookie': cookies}
@@ -21,19 +21,20 @@ soup = BeautifulSoup(response.text, 'html.parser')
 # print(soup.prettify())
 movie_list = []
 
-for movie_info in soup.find_all('div', attrs={'class': 'movie-hover-info'}, limit=10):
-    for title in movie_info.find_all('div'):
-        # 将tag子节点以列表方式输出
-        for child in title.contents[1].children:
-            # print(child, str(title.contents[2]).strip())
-            movie_list.append([child, str(title.contents[2]).strip()])
-        for integer in title.find_all('i', attrs={'class': 'integer'}):
-            pass
-        for fraction in title.find_all('i', attrs={'class': 'fraction'}):
-            pass
-    # print('评分：', integer.string+fraction.string)
-    movie_list.append(['评分：', integer.string+fraction.string])
+for title in soup.find_all('div', attrs={'class': 'movie-hover-info'}, limit=10):
+    movie_name = title.find('span', attrs={'class': 'name'}).string
+    movie_type = title.select('div ')[1].contents[2].strip()
+    movie_actor = title.select('div ')[2].contents[2].strip()
+    movie_star = title.select('div > span')[
+        1].contents[0].string + title.select('div > span')[1].contents[1].string
+    movie_release = title.select('div ')[3].contents[2].strip()
+    movies_info = [movie_name, movie_type,
+                   movie_actor, movie_star, movie_release]
+    movie_list.append(movies_info)
 
-movies = pd.DataFrame(data=movie_list)
-movies.to_csv('./movies_maoyan.csv', encoding='UTF-8',
-              index=False, header=False,)
+
+movies = pd.DataFrame(data=movie_list, columns=[
+                      '电影名称', '类型', '主演', '评分', '上映时间'])
+print(movies)
+
+movies.to_csv('./movies_maoyan.csv', encoding='UTF-8', index=False)
