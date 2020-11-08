@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+                <h2 style="margin-left: 55px;margin-top: 20px;""> 豆瓣电影Top25</h2>
+                <hr>
+{% for movie in movies_detail %}
+                <div class="container">
+
+                    <div class="row mb-2">
+
+                        <div class="col-md-12">
+
+                            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+
+                                <div class="col p-4 d-flex flex-column position-static">
+                                    <strong class="d-inline-block mb-2 text-primary">No.{{ movie.rank }} 豆瓣电影Top25</strong>
+                                    <h3 class="mb-0">{{ movie.name }}</h3>
+                                    <div class="mb-1 text-muted">豆瓣评分: {{ movie.score }}</div>
+                                    <p class="card-text mb-auto">导演：{{ movie.director }}</p>
+                                    <p class="card-text mb-auto">编剧: {{ movie.writer }}</p>
+                                    <p class="card-text mb-auto">主演: {{ movie.actor }}</p>
+                                    <p class="card-text mb-auto">类型: {{ movie.film_type }}</p>
+<!--                                    <p class="card-text mb-auto">制片国家/地区: {{ movie.area }}</p>-->
+<!--                                    <p class="card-text mb-auto">语言: {{ movie.language }}</p>-->
+                                    <p class="card-text mb-auto">上映日期: {{ movie.release_time }}</p>
+                                    <p class="card-text mb-auto">片长: {{ movie.film_length }}</p>
+                                    <a href="{% url 'movie:comment' movie.name %}">评论分析</a>
+                                </div>
+                                <div class="col-auto d-none d-lg-block">
+                                    <img src="{{ movie.img_link }}" style="margin-top: 20px; margin-right: 10px; width: 200px; height: 280px; ">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+{% endfor %}
+            </main>
+{% endblock  %}

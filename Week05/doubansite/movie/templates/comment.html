@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover">
+                        <thead >
+                            <tr class="active">
+                                <th>用户昵称</th>
+                                <th>短评内容</th>
+                                <th>评分星级</th>
+                                <th>评论时间</th>
+                                <th>赞同人数</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for detail in comments %}
+                            <tr >
+                                <td class="text-primary">{{ detail.nickname}}</td>
+                                <td>{{ detail.comment }}</td>
+                                <td>{{ detail.star }}</td>
+                                <td>{{ detail.comment_date }}</td>
+                                <td>{{ detail.agree }}</td>
+                            </tr>
+                        </tbody>
+                        {% endfor %}
+                    </table>
+
+                </div>
+
+            </main>
+
+        </div>
+    </div>
+{% endblock %}
