@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="UTF-8">
+
+<head>
+    <title>login demo</title>
+
+    <!-- Meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Style -->
+    <link rel="stylesheet" href="/static/css/style.css" type="text/css" media="all" />
+</head>
+
+<body>
+    <!-- login form -->
+    <section class="w3l-login">
+        <div class="overlay">
+            <div class="wrapper">
+                <div class="logo">
+                    <a class="brand-logo" href="index.html">demo login form</a>
+                </div>
+                <div class="form-section">
+                    <h3>Login</h3>
+                    {% if login_error_msg %}
+                    <div id="error-msg">
+                        <span style="color: rgba(255,53,49,0.8); font-family: cursive;">{{ login_error_msg }}</span>
+                    </div>
+                    {% endif %}
+                    <form action="/login/" method="post" class="signin-form">
+                        {% csrf_token %}
+                        <div class="form-input">
+                            <input type="text" name="username" id="username" placeholder="Username" required="" autofocus>
+                        </div>
+                        <div class="form-input">
+                            <input type="password" name="password" id="password" minlength="8" placeholder="Password" required="">
+                        </div>
+                        <button type="submit" class="btn btn-primary theme-button mt-4">登录</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id='stars'></div>
+        <div id='stars2'></div>
+        <div id='stars3'></div>
+
+
+    </section>
+
+    <!-- /login form -->
+</body>
+
+</html>
